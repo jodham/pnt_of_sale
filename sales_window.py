@@ -63,11 +63,13 @@ class employee():
         self.Btn_add.place(x=25, y=280)
         self.btn_clear = Button(self.emp_window, text="Clear", font="times 9 bold")
         self.btn_clear.place(x=130, y=280)
-        self.canva = Canvas(self.emp_window, bg="blue", height=200)
-        self.canva.place(x=200, y=40)
+        self.canva = Canvas(self.emp_window, bg="blue", height=200, width=200)
+        self.canva.place(x=320, y=90)
 
-
+    # -----------------------------------------calculator------------------
+        #display_ent = Entry(self.canva)
+        #display_ent.pack()
+    # ------------------------------------------calculator-------------------
 
     def run(self):
         self.emp_window.mainloop()
-
