@@ -20,6 +20,8 @@ class manager_window:
         self.root.geometry("990x500")
         self.label1 = Label(self.root, text="OGA SALES POINT", font="times 20 bold")
         self.label1.place(x=500, y=5)
+        self.title_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.title_frame.place(x=50, y=40, width=500, height=50)
 
     def run(self):
         self.root.mainloop()
@@ -66,7 +68,13 @@ class employee():
         self.btn_clear = Button(self.emp_window, text="Clear", font="Aerial 15 bold")
         self.btn_clear.place(x=250, y=300)
         self.frm1 = Frame(self.emp_window, bd=10, relief=GROOVE)
-        self.frm1.place(x=25, y=400, width=380, height=90)
+        self.frm1.place(x=25, y=400, width=420, height=90)
+        self.btn_total = Button(self.frm1, text="Total", font="Aerial 15 bold")
+        self.btn_total.place(x=2, y=13)
+        self.btn_total = Button(self.frm1, text="Bill", font="Aerial 15 bold")
+        self.btn_total.place(x=150, y=13)
+        self.btn_total = Button(self.frm1, text="Exit", font="Aerial 15 bold")
+        self.btn_total.place(x=270, y=13)
 
         # -----------------------------------------calculator------------------
         self.display_ent = Entry(self.emp_window)
