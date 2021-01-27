@@ -106,9 +106,12 @@ class employee():
     # =================================================bill area====================
         self.frame = Frame(self.emp_window, bd=10, relief=GROOVE)
         self.frame.place(x=560, y=60, width=350,height=380)
-        self.bill_title= Label(self.frame, text="BILL Area", font="arial 15 bold", bd=7, relief=GROOVE).pack()
+        self.bill_title= Label(self.frame, text="BILL Area", font="arial 15 bold", bd=7, relief=GROOVE).pack(fill=Y)
         scrol_y = Scrollbar(self.frame, orient=VERTICAL)
-        self.txtarea= Text(self.frame, yscrollcommand=scrol_y.set)
+        self.txtarea = Text(self.frame, yscrollcommand=scrol_y.set)
+        scrol_y.pack(side=RIGHT, fill=X)
+        scrol_y.config(command=self.txtarea.yview)
+        self.txtarea.pack(fill=BOTH, expand=1)
 
     # =================================================bill area====================
     def run(self):
