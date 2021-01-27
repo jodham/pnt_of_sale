@@ -21,7 +21,16 @@ class manager_window:
         self.label1 = Label(self.root, text="OGA SALES POINT", font="times 20 bold")
         self.label1.place(x=500, y=5)
         self.title_frame = Frame(self.root, bd=10, relief=GROOVE)
-        self.title_frame.place(x=50, y=40, width=500, height=50)
+        self.title_frame.place(x=50, y=40, width=600, height=50)
+        self.add_user_btn = Button(self.title_frame, text="Add User", font="Aerial 10 bold")
+        self.add_user_btn.place(x=2, y=1)
+        self.add_prod_btn = Button(self.title_frame, text="Add Product", font="Aerial 10 bold")
+        self.add_prod_btn.place(x=120, y=1)
+        self.chek_price_btn = Button(self.title_frame, text="Price Check", font="Aerial 10 bold")
+        self.chek_price_btn.place(x=270, y=1)
+        self.chek_stock_btn = Button(self.title_frame, text="Stock Check", font="Aerial 10 bold")
+        self.chek_stock_btn.place(x=410, y=1)
+
 
     def run(self):
         self.root.mainloop()
