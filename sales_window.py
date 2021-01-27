@@ -17,7 +17,9 @@ class manager_window:
     def __init__(self):
         self.root = Tk()
         self.root.title("welcome")
-        self.root.geometry("500x300")
+        self.root.geometry("990x500")
+        self.label1 = Label(self.root, text="OGA SALES POINT", font="times 20 bold")
+        self.label1.place(x=500, y=5)
 
     def run(self):
         self.root.mainloop()
@@ -42,7 +44,7 @@ class employee():
         self.label3 = Label(self.emp_window, text="Phone No :", font="times 14 bold")
         self.label3.place(x=730, y=20)
         self.ent_phn = Entry(self.emp_window)
-        self.ent_phn.place(x=840, y=20)
+        self.ent_phn.place(x=820, y=20)
         self.label5 = Label(self.emp_window, text="Category", font="times 14")
         self.label5.place(x=20, y=90)
         self.ent_categ = Entry(self.emp_window)
@@ -64,7 +66,7 @@ class employee():
         self.btn_clear = Button(self.emp_window, text="Clear", font="times 9 bold")
         self.btn_clear.place(x=130, y=280)
 
-    # -----------------------------------------calculator------------------
+        # -----------------------------------------calculator------------------
         self.display_ent = Entry(self.emp_window)
         self.display_ent.place(x=340, y=90)
         self.btn7 = Button(self.emp_window, text="7", font='times 9 bold')
@@ -99,7 +101,15 @@ class employee():
         self.btn_equal.place(x=420, y=240)
         self.btn_sub = Button(self.emp_window, text="-", font='times 9 bold')
         self.btn_sub.place(x=460, y=240)
-    # ------------------------------------------calculator-------------------
 
+    # ------------------------------------------calculator-------------------
+    # =================================================bill area====================
+        self.frame = Frame(self.emp_window, bd=10, relief=GROOVE)
+        self.frame.place(x=560, y=60, width=350,height=380)
+        self.bill_title= Label(self.frame, text="BILL Area", font="arial 15 bold", bd=7, relief=GROOVE).pack()
+        scrol_y = Scrollbar(self.frame, orient=VERTICAL)
+        self.txtarea= Text(self.frame, yscrollcommand=scrol_y.set)
+
+    # =================================================bill area====================
     def run(self):
         self.emp_window.mainloop()
