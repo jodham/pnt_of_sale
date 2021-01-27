@@ -18,8 +18,8 @@ class manager_window:
         self.root = Tk()
         self.root.title("welcome")
         self.root.geometry("990x500")
-        self.label1 = Label(self.root, text="OGA SALES POINT", font="times 20 bold")
-        self.label1.place(x=500, y=5)
+        self.label1 = Label(self.root, text="RETAIL MANAGEMENT SYSTEM", font="times 20 bold")
+        self.label1.place(x=400, y=5)
         self.title_frame = Frame(self.root, bd=10, relief=GROOVE)
         self.title_frame.place(x=50, y=40, width=600, height=50)
         self.add_user_btn = Button(self.title_frame, text="Add User", font="Aerial 10 bold")
@@ -30,7 +30,10 @@ class manager_window:
         self.chek_price_btn.place(x=270, y=1)
         self.chek_stock_btn = Button(self.title_frame, text="Stock Check", font="Aerial 10 bold")
         self.chek_stock_btn.place(x=410, y=1)
-
+        self.title_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.title_frame.place(x=5, y=100, width=100, height=400)
+        self.display_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.display_frame.place(x=120, y=100, width=600, height=400)
 
     def run(self):
         self.root.mainloop()
