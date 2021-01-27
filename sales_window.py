@@ -61,10 +61,12 @@ class employee():
         self.label8.place(x=20, y=240)
         self.ent_quant = Entry(self.emp_window)
         self.ent_quant.place(x=130, y=240)
-        self.Btn_add = Button(self.emp_window, text="Add to cart", font="times 9 bold")
-        self.Btn_add.place(x=25, y=280)
-        self.btn_clear = Button(self.emp_window, text="Clear", font="times 9 bold")
-        self.btn_clear.place(x=130, y=280)
+        self.Btn_add = Button(self.emp_window, text="Add to cart", font="Aerial 15 bold")
+        self.Btn_add.place(x=25, y=300)
+        self.btn_clear = Button(self.emp_window, text="Clear", font="Aerial 15 bold")
+        self.btn_clear.place(x=250, y=300)
+        self.frm1 = Frame(self.emp_window, bd=10, relief=GROOVE)
+        self.frm1.place(x=25, y=400, width=380, height=90)
 
         # -----------------------------------------calculator------------------
         self.display_ent = Entry(self.emp_window)
@@ -102,11 +104,11 @@ class employee():
         self.btn_sub = Button(self.emp_window, text="-", font='times 9 bold')
         self.btn_sub.place(x=460, y=240)
 
-    # ------------------------------------------calculator-------------------
-    # =================================================bill area====================
+        # ------------------------------------------calculator-------------------
+        # =================================================bill area====================
         self.frame = Frame(self.emp_window, bd=10, relief=GROOVE)
-        self.frame.place(x=560, y=60, width=350,height=380)
-        self.bill_title= Label(self.frame, text="BILL Area", font="arial 15 bold", bd=7, relief=GROOVE).pack(fill=Y)
+        self.frame.place(x=560, y=60, width=350, height=380)
+        self.bill_title = Label(self.frame, text="BILL Area", font="arial 15 bold", bd=7, relief=GROOVE).pack(fill=Y)
         scrol_y = Scrollbar(self.frame, orient=VERTICAL)
         self.txtarea = Text(self.frame, yscrollcommand=scrol_y.set)
         scrol_y.pack(side=RIGHT, fill=X)
