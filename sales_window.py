@@ -2,7 +2,6 @@ from tkinter import *
 import tkinter.messagebox
 import mysql.connector
 
-
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -24,11 +23,13 @@ class manager_window:
         self.title_frame.config(bg="blue")
         self.add_user_btn = Button(self.title_frame, text="Add User", font="Aerial 10 bold", command=self.add_user)
         self.add_user_btn.place(x=2, y=1)
-        self.add_prod_btn = Button(self.title_frame, text="Add Product", font="Aerial 10 bold",command=self.new_product)
+        self.add_prod_btn = Button(self.title_frame, text="Add Product", font="Aerial 10 bold",
+                                   command=self.new_product)
         self.add_prod_btn.place(x=120, y=1)
-        self.chek_price_btn = Button(self.title_frame, text="Price Check", font="Aerial 10 bold", command=self.price_check)
+        self.chek_price_btn = Button(self.title_frame, text="Price Check", font="Aerial 10 bold",
+                                     command=self.price_check)
         self.chek_price_btn.place(x=270, y=1)
-        self.chek_stock_btn = Button(self.title_frame, text="Stock Check", font="Aerial 10 bold" ,command=self.stock)
+        self.chek_stock_btn = Button(self.title_frame, text="Stock Check", font="Aerial 10 bold", command=self.stock)
         self.chek_stock_btn.place(x=410, y=1)
         self.side_frame = Frame(self.root, bd=10, relief=GROOVE)
         self.side_frame.place(x=200, y=100, width=110, height=400)
@@ -83,7 +84,6 @@ class manager_window:
         self.clear_btn = Button(self.add_user_frame, text="Clear", font="Aerial 14 bold")
         self.clear_btn.place(x=150, y=320)
 
-
     def new_user(self):
         cusId = self.id_ent.get()
         username = self.user_ent.get()
@@ -98,17 +98,19 @@ class manager_window:
             tkinter.messagebox.showinfo("success", "user added")
 
             mydb.commit()
-            tkinter.messagebox.showinfo("success!!", category+" "+"added")
+            tkinter.messagebox.showinfo("success!!", category + " " + "added")
         else:
             tkinter.messagebox.showerror("null value", "fill all fields")
 
     def run(self):
         self.root.mainloop()
+
     def new_product(self):
         self.add_product_frame = Frame(self.root, bd=10, relief=GROOVE)
         self.add_product_frame.place(x=320, y=100, width=600, height=400)
         self.add_product_frame.config(bg="blue")
-        self.exit_btn = Button(self.add_product_frame, text="X", font="times 20 bold", command=self.add_product_frame.destroy)
+        self.exit_btn = Button(self.add_product_frame, text="X", font="times 20 bold",
+                               command=self.add_product_frame.destroy)
         self.exit_btn.place(x=530, y=5)
         self.label = Label(self.add_product_frame, text="Add product", font="Aerial 20 bold")
         self.label.place(x=200, y=5)
@@ -150,23 +152,23 @@ class manager_window:
         quantity_ent = self.quantity_ent.get()
         price = self.price_ent.get()
 
-        if procode or category or quantity_ent or price or proName !="":
-            sql = "INSERT INTO tbl_product(productCode,productName," \
-                  "category,quantity,price/unit) VALUES (%s,%s,%s,%s,%s)"
-            val = (procode, proName, category, quantity_ent, price)
-            mycur.execute(sql, val)
+        if procode or category or quantity_ent or price or proName != "":
+            query = "INSERT INTO tbl_product('productCode','productName','category','quantity','price/unit')" \
+                    "VALUES(%S,%S,%S,%S,%S)"
+            my_data = (procode, proName, category, quantity_ent, price)
+            mycur.execute(query, my_data)
 
             mydb.commit()
             tkinter.messagebox.showinfo("success", "product added")
         else:
             tkinter.messagebox.showerror("null value", "fill all fields")
 
-
     def price_check(self):
         self.add_price_frame = Frame(self.root, bd=10, relief=GROOVE)
         self.add_price_frame.place(x=320, y=100, width=600, height=400)
         self.add_price_frame.config(bg="blue")
-        self.exit_btn = Button(self.add_price_frame, text="X", font="times 20 bold", command=self.add_price_frame.destroy)
+        self.exit_btn = Button(self.add_price_frame, text="X", font="times 20 bold",
+                               command=self.add_price_frame.destroy)
         self.exit_btn.place(x=530, y=5)
 
     def stock(self):
