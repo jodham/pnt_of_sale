@@ -113,13 +113,13 @@ class manager_window:
         self.label = Label(self.add_product_frame, text="Add product", font="Aerial 20 bold")
         self.label.place(x=200, y=5)
         self.label.config(bg="blue")
-        self.label2 = Label(self.add_product_frame, text="Product Name", font="Aerial 12 bold")
+        self.label2 = Label(self.add_product_frame, text="Product Code", font="Aerial 12 bold")
         self.label2.place(x=30, y=60)
         self.label2.config(bg='blue')
-        self.label3 = Label(self.add_product_frame, text="Category", font="Aerial 12 bold")
+        self.label3 = Label(self.add_product_frame, text="Product Name", font="Aerial 12 bold")
         self.label3.place(x=30, y=100)
         self.label3.config(bg='blue')
-        self.label4 = Label(self.add_product_frame, text="Sub-Category", font="Aerial 12 bold")
+        self.label4 = Label(self.add_product_frame, text="Category", font="Aerial 12 bold")
         self.label4.place(x=30, y=140)
         self.label4.config(bg='blue')
         self.label5 = Label(self.add_product_frame, text="Quantity", font="Aerial 12 bold")
@@ -128,12 +128,12 @@ class manager_window:
         self.label6 = Label(self.add_product_frame, text="Price/Unit", font="Aerial 12 bold")
         self.label6.place(x=30, y=220)
         self.label6.config(bg='blue')
-        self.product_ent = Entry(self.add_product_frame)
-        self.product_ent.place(x=170, y=60)
-        self.category_ent = Entry(self.add_product_frame)
-        self.category_ent.place(x=170, y=100)
-        self.sub_categ_ent = Entry(self.add_product_frame)
-        self.sub_categ_ent.place(x=170, y=140)
+        self.product_code = Entry(self.add_product_frame)
+        self.product_code.place(x=170, y=60)
+        self.product_Name = Entry(self.add_product_frame)
+        self.product_Name.place(x=170, y=100)
+        self.categ_ent = Entry(self.add_product_frame)
+        self.categ_ent.place(x=170, y=140)
         self.quantity_ent = Entry(self.add_product_frame)
         self.quantity_ent.place(x=170, y=180)
         self.price_ent = Entry(self.add_product_frame)
@@ -144,13 +144,22 @@ class manager_window:
         self.clear_button.place(x=280, y=300)
 
     def add_product(self):
-        product = self.product_ent.get()
-        category = self.category_ent.get()
-        quantity = self.quantity_ent.get()
+        procode = self.product_code.get()
+        proName = self.product_Name.get()
+        category = self.categ_ent.get()
+        quantity_ent = self.quantity_ent.get()
         price = self.price_ent.get()
 
-        if product or category or quantity or price !="":
-            sql = "INSERT"
+        if procode or category or quantity_ent or price or proName !="":
+            sql = "INSERT INTO tbl_product(productCode,productName," \
+                  "category,quantity,price/unit) VALUES (%s,%s,%s,%s,%s)"
+            val = (procode, proName, category, quantity_ent, price)
+            mycur.execute(sql, val)
+
+            mydb.commit()
+            tkinter.messagebox.showinfo("success", "product added")
+        else:
+            tkinter.messagebox.showerror("null value", "fill all fields")
 
 
     def price_check(self):
