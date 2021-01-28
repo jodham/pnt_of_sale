@@ -1,5 +1,5 @@
 from tkinter import *
-import tkinter.messagebox as mb
+import tkinter.messagebox
 import mysql.connector
 
 
@@ -8,10 +8,8 @@ mydb = mysql.connector.connect(
     user="root",
     password="",
     database="mydatabase1"
-
 )
 mycur = mydb.cursor()
-print("connected to db")
 
 
 class manager_window:
@@ -85,11 +83,23 @@ class manager_window:
         self.clear_btn = Button(self.add_user_frame, text="Clear", font="Aerial 14 bold")
         self.clear_btn.place(x=150, y=320)
 
-
     def new_user(self):
+        cusId = self.id_ent.get()
         username = self.user_ent.get()
-        print(username)
+        password = self.psw_ent.get()
+        category = self.categ_ent.get()
+        if cusId or username or password or category != "":
+            sql = "INSERT INTO tbl_user(id, username, password, category) VALUES (%s,%s,%s,%s)"
+            val = (cusId, username, password, category)
+            mycur.execute(sql, val)
 
+            mydb.commit()
+            tkinter.messagebox.showinfo("success", "user added")
+
+            mydb.commit()
+            tkinter.messagebox.showinfo("success!!", category+" "+"added")
+        else:
+            tkinter.messagebox.showerror("null value", "fill all fields")
 
     def run(self):
         self.root.mainloop()
