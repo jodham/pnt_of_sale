@@ -83,6 +83,7 @@ class manager_window:
         self.clear_btn = Button(self.add_user_frame, text="Clear", font="Aerial 14 bold")
         self.clear_btn.place(x=150, y=320)
 
+
     def new_user(self):
         cusId = self.id_ent.get()
         username = self.user_ent.get()
@@ -105,17 +106,24 @@ class manager_window:
         self.root.mainloop()
     def new_product(self):
         self.add_product_frame = Frame(self.root, bd=10, relief=GROOVE)
-        self.add_product_frame.place(x=400, y=100, width=400, height=400)
+        self.add_product_frame.place(x=320, y=100, width=600, height=400)
         self.add_product_frame.config(bg="blue")
         self.exit_btn = Button(self.add_product_frame, text="X", font="times 20 bold", command=self.add_product_frame.destroy)
-        self.exit_btn.place(x=330, y=5)
+        self.exit_btn.place(x=530, y=5)
+        self.label = Label(self.add_product_frame, text="Add product", font="Aerial 20 bold")
+        self.label.place(x=200, y=5)
+        self.label.config(bg="blue")
+        self.label2 = Label(self.add_product_frame, text="Product Name", font="Aerial 12 bold")
+        self.label2.place(x=30, y=60)
+        self.label2.config(bg='blue')
+
 
     def price_check(self):
         self.add_price_frame = Frame(self.root, bd=10, relief=GROOVE)
-        self.add_price_frame.place(x=400, y=100, width=400, height=400)
+        self.add_price_frame.place(x=320, y=100, width=600, height=400)
         self.add_price_frame.config(bg="blue")
         self.exit_btn = Button(self.add_price_frame, text="X", font="times 20 bold", command=self.add_price_frame.destroy)
-        self.exit_btn.place(x=330, y=5)
+        self.exit_btn.place(x=530, y=5)
 
     def stock(self):
         self.stock_frame = Frame(self.root, bd=10, relief=GROOVE)
@@ -130,17 +138,18 @@ class employee():
         self.emp_window = Tk()
         self.emp_window.geometry("990x600")
         self.emp_window.title("product details")
-        self.label1 = Label(self.emp_window, text="Bill No :", font="times 15 bold")
+        self.label1 = Label(self.emp_window, text="Product Name :", font="times 15 bold")
         self.label1.place(x=10, y=20)
         self.ent1 = Entry(self.emp_window)
-        self.ent1.place(x=90, y=20)
+        self.ent1.place(x=160, y=20)
         self.btn_search = Button(self.emp_window, text="Search", font="times 15 bold")
-        self.btn_search.place(x=260, y=20)
+        self.btn_search.place(x=330, y=20, width=59)
+        self.btn_search.config(bg='yellow')
 
         self.label2 = Label(self.emp_window, text="Customer Name :", font="times 14 bold")
-        self.label2.place(x=380, y=20)
+        self.label2.place(x=410, y=20)
         self.ent_name = Entry(self.emp_window)
-        self.ent_name.place(x=540, y=20)
+        self.ent_name.place(x=570, y=20)
         self.label3 = Label(self.emp_window, text="Phone No :", font="times 14 bold")
         self.label3.place(x=730, y=20)
         self.ent_phn = Entry(self.emp_window)
