@@ -148,21 +148,20 @@ class manager_window:
     def add_product(self):
         procode = self.product_code.get()
         proName = self.product_Name.get()
-        category = self.categ_ent.get()
+        category1 = self.categ_ent.get()
         quantity_ent = self.quantity_ent.get()
         price = self.price_ent.get()
 
-        if procode or category or quantity_ent or price or proName != "":
-            query = "INSERT INTO tbl_product('productCode','productName','category','quantity','price/unit')" \
-                    "VALUES(%S,%S,%S,%S,%S)"
-            my_data = (procode, proName, category, quantity_ent, price)
-            mycur.execute(query, my_data)
+        if procode or category1 or quantity_ent or price or proName != "":
+            query = "INSERT INTO tbl_product(productCode, productName, category, quantity, price) VALUES (%s,%s,%s,%s,%s)"
+            mydata = (procode, proName, category1, quantity_ent, price)
+            mycur.execute(query, mydata)
 
             mydb.commit()
-            tkinter.messagebox.showinfo("success", "product added")
-        else:
-            tkinter.messagebox.showerror("null value", "fill all fields")
+            tkinter.messagebox.showinfo("success", "user added")
 
+            mydb.commit()
+            tkinter.messagebox.showinfo("success!!", "product added")
     def price_check(self):
         self.add_price_frame = Frame(self.root, bd=10, relief=GROOVE)
         self.add_price_frame.place(x=320, y=100, width=600, height=400)
