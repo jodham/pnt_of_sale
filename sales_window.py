@@ -24,11 +24,11 @@ class manager_window:
         self.title_frame.config(bg="blue")
         self.add_user_btn = Button(self.title_frame, text="Add User", font="Aerial 10 bold", command=self.add_user)
         self.add_user_btn.place(x=2, y=1)
-        self.add_prod_btn = Button(self.title_frame, text="Add Product", font="Aerial 10 bold")
+        self.add_prod_btn = Button(self.title_frame, text="Add Product", font="Aerial 10 bold",command=self.new_product)
         self.add_prod_btn.place(x=120, y=1)
-        self.chek_price_btn = Button(self.title_frame, text="Price Check", font="Aerial 10 bold")
+        self.chek_price_btn = Button(self.title_frame, text="Price Check", font="Aerial 10 bold", command=self.price_check)
         self.chek_price_btn.place(x=270, y=1)
-        self.chek_stock_btn = Button(self.title_frame, text="Stock Check", font="Aerial 10 bold")
+        self.chek_stock_btn = Button(self.title_frame, text="Stock Check", font="Aerial 10 bold" ,command=self.stock)
         self.chek_stock_btn.place(x=410, y=1)
         self.side_frame = Frame(self.root, bd=10, relief=GROOVE)
         self.side_frame.place(x=200, y=100, width=110, height=400)
@@ -103,6 +103,26 @@ class manager_window:
 
     def run(self):
         self.root.mainloop()
+    def new_product(self):
+        self.add_product_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.add_product_frame.place(x=400, y=100, width=400, height=400)
+        self.add_product_frame.config(bg="blue")
+        self.exit_btn = Button(self.add_product_frame, text="X", font="times 20 bold", command=self.add_product_frame.destroy)
+        self.exit_btn.place(x=330, y=5)
+
+    def price_check(self):
+        self.add_price_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.add_price_frame.place(x=400, y=100, width=400, height=400)
+        self.add_price_frame.config(bg="blue")
+        self.exit_btn = Button(self.add_price_frame, text="X", font="times 20 bold", command=self.add_price_frame.destroy)
+        self.exit_btn.place(x=330, y=5)
+
+    def stock(self):
+        self.stock_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.stock_frame.place(x=320, y=100, width=600, height=400)
+        self.stock_frame.config(bg="blue")
+        self.exit_btn = Button(self.stock_frame, text="X", font="times 20 bold", command=self.stock_frame.destroy)
+        self.exit_btn.place(x=530, y=5)
 
 
 class employee():
