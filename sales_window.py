@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter.messagebox as mb
 import mysql.connector
 
+
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -51,38 +52,43 @@ class manager_window:
         self.about_btn.place(x=1, y=300, height=60, width=90)
 
     def add_user(self):
-        add_user_frame = Frame(self.root, bd=10, relief=GROOVE)
-        add_user_frame.place(x=400, y=100, width=400, height=400)
-        add_user_frame.config(bg="blue")
-        lbl1 = Label(add_user_frame, text="Add User", font="Aerial 25 bold")
-        lbl1.place(x=100, y=20)
-        lbl1.config(bg="blue", fg="white")
-        exit_btn = Button(add_user_frame, text="X", font="times 20 bold", command=add_user_frame.destroy)
-        exit_btn.place(x=330, y=5)
-        label_name = Label(add_user_frame, text="Username :", font="Aerial 14 bold")
-        label_name.place(x=30, y=100)
-        label_name.config(bg="blue", fg="white")
-        user_ent = Entry(add_user_frame)
-        user_ent.place(x=170, y=100)
-        label_id = Label(add_user_frame, text="ID             :", font="Aerial 14 bold")
-        label_id.place(x=30, y=150)
-        label_id.config(bg="blue", fg="white")
-        id_ent = Entry(add_user_frame)
-        id_ent.place(x=170, y=150)
-        label_psw = Label(add_user_frame, text="Password  :", font="Aerial 14 bold")
-        label_psw.place(x=30, y=200)
-        label_psw.config(bg="blue", fg="white")
-        psw_ent = Entry(add_user_frame, show="*")
-        psw_ent.place(x=170, y=200)
-        label_categ = Label(add_user_frame, text="Category  :", font="Aerial 14 bold")
-        label_categ.place(x=30, y=250)
-        label_categ.config(bg="blue", fg="white")
-        categ_ent = Entry(add_user_frame)
-        categ_ent.place(x=170, y=250)
-        add_btn = Button(add_user_frame, text="Add", font="Aerial 14 bold")
-        add_btn.place(x=60, y=320)
-        clear_btn = Button(add_user_frame, text="Clear", font="Aerial 14 bold")
-        clear_btn.place(x=150, y=320)
+        self.add_user_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.add_user_frame.place(x=400, y=100, width=400, height=400)
+        self.add_user_frame.config(bg="blue")
+        self.lbl1 = Label(self.add_user_frame, text="Add User", font="Aerial 25 bold")
+        self.lbl1.place(x=100, y=20)
+        self.lbl1.config(bg="blue", fg="white")
+        self.exit_btn = Button(self.add_user_frame, text="X", font="times 20 bold", command=self.add_user_frame.destroy)
+        self.exit_btn.place(x=330, y=5)
+        self.label_name = Label(self.add_user_frame, text="Username :", font="Aerial 14 bold")
+        self.label_name.place(x=30, y=100)
+        self.label_name.config(bg="blue", fg="white")
+        self.user_ent = Entry(self.add_user_frame)
+        self.user_ent.place(x=170, y=100)
+        self.label_id = Label(self.add_user_frame, text="ID             :", font="Aerial 14 bold")
+        self.label_id.place(x=30, y=150)
+        self.label_id.config(bg="blue", fg="white")
+        self.id_ent = Entry(self.add_user_frame)
+        self.id_ent.place(x=170, y=150)
+        self.label_psw = Label(self.add_user_frame, text="Password  :", font="Aerial 14 bold")
+        self.label_psw.place(x=30, y=200)
+        self.label_psw.config(bg="blue", fg="white")
+        self.psw_ent = Entry(self.add_user_frame, show="*")
+        self.psw_ent.place(x=170, y=200)
+        self.label_categ = Label(self.add_user_frame, text="Category  :", font="Aerial 14 bold")
+        self.label_categ.place(x=30, y=250)
+        self.label_categ.config(bg="blue", fg="white")
+        self.categ_ent = Entry(self.add_user_frame)
+        self.categ_ent.place(x=170, y=250)
+        self.add_btn = Button(self.add_user_frame, text="Add", font="Aerial 14 bold", command=self.new_user)
+        self.add_btn.place(x=60, y=320)
+        self.clear_btn = Button(self.add_user_frame, text="Clear", font="Aerial 14 bold")
+        self.clear_btn.place(x=150, y=320)
+
+
+    def new_user(self):
+        username = self.user_ent.get()
+        print(username)
 
 
     def run(self):
