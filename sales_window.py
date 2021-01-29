@@ -174,7 +174,8 @@ class manager_window:
              mycur.execute(query, mydata)
             except mysql.connector.Error as e:
                 try:
-                    print("MYsql Error [%d]: %s" %(e.args[0], e.args[1]))
+                    tkinter.messagebox.showerror("duplicate","product"+" "+procode +" "+"Exists")
+                   # print("MYsql Error [%d]: %s" %(e.args[0], e.args[1]))
                     return None
                 except IndexError:
                     print("MySQL Error: %s" %str(e))
@@ -186,14 +187,9 @@ class manager_window:
                 print(e)
                 return None
 
-            finally:
+            else:
                 mydb.commit()
                 tkinter.messagebox.showinfo("success!!", "product added")
-                self.product_code.delete(0, END)
-                self.product_Name.delete(0, END)
-                self.categ_ent.delete(0, END)
-                self.quantity_ent.delete(0, END)
-                self.price_ent.delete(0, END)
 
         else:
             tkinter.messagebox.showerror("null value", "fill all values")
