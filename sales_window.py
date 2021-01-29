@@ -23,8 +23,7 @@ class manager_window:
         self.title_frame.config(bg="blue")
         self.add_user_btn = Button(self.title_frame, text="Add User", font="Aerial 10 bold", command=self.add_user)
         self.add_user_btn.place(x=2, y=1)
-        self.add_prod_btn = Button(self.title_frame, text="Add Product", font="Aerial 10 bold",
-                                   command=self.new_product)
+        self.add_prod_btn = Button(self.title_frame, text="Add Product", font="Aerial 10 bold", command=self.new_product)
         self.add_prod_btn.place(x=120, y=1)
         self.chek_price_btn = Button(self.title_frame, text="Price Check", font="Aerial 10 bold",
                                      command=self.price_check)
@@ -81,8 +80,14 @@ class manager_window:
         self.categ_ent.place(x=170, y=250)
         self.add_btn = Button(self.add_user_frame, text="Add", font="Aerial 14 bold", command=self.new_user)
         self.add_btn.place(x=60, y=320)
-        self.clear_btn = Button(self.add_user_frame, text="Clear", font="Aerial 14 bold")
+        self.clear_btn = Button(self.add_user_frame, text="Clear", font="Aerial 14 bold", command=self.clear)
         self.clear_btn.place(x=150, y=320)
+
+    def clear(self):
+        self.user_ent.delete(0, END)
+        self.id_ent.delete(0, END)
+        self.psw_ent.delete(0, END)
+        self.categ_ent.delete(0, END)
 
     def new_user(self):
         cusId = self.id_ent.get()
@@ -95,10 +100,11 @@ class manager_window:
             mycur.execute(sql, val)
 
             mydb.commit()
-            tkinter.messagebox.showinfo("success", "user added")
-
-            mydb.commit()
             tkinter.messagebox.showinfo("success!!", category + " " + "added")
+            self.user_ent.delete(0, END)
+            self.id_ent.delete(0, END)
+            self.psw_ent.delete(0, END)
+            self.categ_ent.delete(0, END)
         else:
             tkinter.messagebox.showerror("null value", "fill all fields")
 
@@ -142,8 +148,15 @@ class manager_window:
         self.price_ent.place(x=170, y=220)
         self.add_button = Button(self.add_product_frame, text="Add", font="Aerial 12 bold", command=self.add_product)
         self.add_button.place(x=140, y=300)
-        self.clear_button = Button(self.add_product_frame, text="Clear", font="Aerial 12 bold")
+        self.clear_button = Button(self.add_product_frame, text="Clear", font="Aerial 12 bold", command=self.reset)
         self.clear_button.place(x=280, y=300)
+
+    def reset(self):
+        self.product_code.delete(0, END)
+        self.product_Name.delete(0, END)
+        self.categ_ent.delete(0, END)
+        self.quantity_ent.delete(0, END)
+        self.price_ent.delete(0, END)
 
     def add_product(self):
         procode = self.product_code.get()
@@ -153,15 +166,21 @@ class manager_window:
         price = self.price_ent.get()
 
         if procode or category1 or quantity_ent or price or proName != "":
-            query = "INSERT INTO tbl_product(productCode, productName, category, quantity, price) VALUES (%s,%s,%s,%s,%s)"
+            query = "INSERT INTO tbl_product(productCode, productName, category, quantity, unitPrice) VALUES (%s,%s,%s,%s,%s)"
             mydata = (procode, proName, category1, quantity_ent, price)
             mycur.execute(query, mydata)
 
             mydb.commit()
-            tkinter.messagebox.showinfo("success", "user added")
-
-            mydb.commit()
             tkinter.messagebox.showinfo("success!!", "product added")
+            self.product_code.delete(0, END)
+            self.product_Name.delete(0, END)
+            self.categ_ent.delete(0, END)
+            self.quantity_ent.delete(0, END)
+            self.price_ent.delete(0, END)
+
+        else:
+            tkinter.messagebox.showerror("null value", "fill all values")
+
     def price_check(self):
         self.add_price_frame = Frame(self.root, bd=10, relief=GROOVE)
         self.add_price_frame.place(x=320, y=100, width=600, height=400)
