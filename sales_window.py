@@ -138,6 +138,8 @@ class manager_window:
         self.label6.config(bg='blue')
         self.product_code = Entry(self.add_product_frame)
         self.product_code.place(x=170, y=60)
+        self.search_btn = Button(self.add_product_frame, text="Search", font="Aerial 12 bold")
+        self.search_btn.place(x=390, y=60)
         self.product_Name = Entry(self.add_product_frame)
         self.product_Name.place(x=170, y=100)
         self.categ_ent = Entry(self.add_product_frame)
@@ -168,15 +170,30 @@ class manager_window:
         if procode or category1 or quantity_ent or price or proName != "":
             query = "INSERT INTO tbl_product(productCode, productName, category, quantity, unitPrice) VALUES (%s,%s,%s,%s,%s)"
             mydata = (procode, proName, category1, quantity_ent, price)
-            mycur.execute(query, mydata)
+            try:
+             mycur.execute(query, mydata)
+            except mysql.connector.Error as e:
+                try:
+                    print("MYsql Error [%d]: %s" %(e.args[0], e.args[1]))
+                    return None
+                except IndexError:
+                    print("MySQL Error: %s" %str(e))
+                    return None
+            except TypeError as e:
+                print(e)
+                return None
+            except ValueError as e:
+                print(e)
+                return None
 
-            mydb.commit()
-            tkinter.messagebox.showinfo("success!!", "product added")
-            self.product_code.delete(0, END)
-            self.product_Name.delete(0, END)
-            self.categ_ent.delete(0, END)
-            self.quantity_ent.delete(0, END)
-            self.price_ent.delete(0, END)
+            finally:
+                mydb.commit()
+                tkinter.messagebox.showinfo("success!!", "product added")
+                self.product_code.delete(0, END)
+                self.product_Name.delete(0, END)
+                self.categ_ent.delete(0, END)
+                self.quantity_ent.delete(0, END)
+                self.price_ent.delete(0, END)
 
         else:
             tkinter.messagebox.showerror("null value", "fill all values")
