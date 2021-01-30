@@ -219,7 +219,7 @@ class employee():
         self.label1.place(x=10, y=20)
         self.search_code = Entry(self.emp_window)
         self.search_code.place(x=160, y=20)
-        self.btn_search = Button(self.emp_window, text="Search", font="times 15 bold")
+        self.btn_search = Button(self.emp_window, text="Search", font="times 15 bold", command=self.search_pro)
         self.btn_search.place(x=330, y=20, width=59)
         self.btn_search.config(bg='yellow')
 
@@ -259,6 +259,19 @@ class employee():
         self.btn_total.place(x=150, y=13)
         self.btn_total = Button(self.frm1, text="Exit", font="Aerial 15 bold")
         self.btn_total.place(x=270, y=13)
+
+    def search_pro(self):
+        searchCode = self.search_code.get()
+
+        try:
+            sql_query = "SELECT * FROM tbl_product WHERE productCode ="+searchCode
+            mycur.execute(sql_query)
+            data = mycur.fetchall()
+            for tup in data:
+                self.proName_ent.text = tup[1]
+                self.ent_categ.text = tup[2]
+        except ValueError as e:
+            tkinter.messagebox.showerror("error", "database error")
 
         # -----------------------------------------calculator------------------
         self.display_ent = Entry(self.emp_window)
