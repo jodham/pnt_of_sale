@@ -304,15 +304,21 @@ class employee():
         proName = self.proName_ent.get()
         price = self.ent_price.get()
         quantity = self.ent_quant.get()
+
+        intprice =int(price)
+        intquantity= int(quantity)
         self.prolabel = Label(self.txtarea, text=proName, font="Aerial 10 bold")
         self.prolabel.place(x=2, y=120)
         self.prolabel.config(bg="white")
-        self.pricelabel = Label(self.txtarea, text=price, font="Aerial 10 bold")
+        self.pricelabel = Label(self.txtarea, text=intprice, font="Aerial 10 bold")
         self.pricelabel.place(x=90, y=120)
         self.pricelabel.config(bg="white")
-        self.quantlabel = Label(self.txtarea, text=quantity, font="Aerial 10 bold")
+        self.quantlabel = Label(self.txtarea, text=intquantity, font="Aerial 10 bold")
         self.quantlabel.place(x=210, y=120)
         self.quantlabel.config(bg="white")
+        self.totallabel = Label(self.txtarea, text=intprice*intquantity, font="Aerial 10 bold")
+        self.totallabel.place(x=255, y=120)
+        self.totallabel.config(bg="white")
 
 
     def search_pro(self):
