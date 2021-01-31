@@ -244,6 +244,10 @@ class employee():
         self.ent_price.place(x=130, y=190)
         self.label8 = Label(self.emp_window, text="Quantity", font="times 14")
         self.label8.place(x=20, y=240)
+        self.quantitylabel = Label(self.emp_window, text="available", font="Aerial 10 bold")
+        self.quantitylabel.place(x=350, y=240)
+        self.quantAvailabel = Entry(self.emp_window)
+        self.quantAvailabel.place(x=300, y=240, width=45)
         self.ent_quant = Entry(self.emp_window)
         self.ent_quant.place(x=130, y=240)
         self.Btn_add = Button(self.emp_window, text="Add to cart", font="Aerial 15 bold")
@@ -256,18 +260,21 @@ class employee():
         self.btn_total.place(x=2, y=13)
         self.btn_total = Button(self.frm1, text="Bill", font="Aerial 15 bold")
         self.btn_total.place(x=150, y=13)
-        self.btn_total = Button(self.frm1, text="Exit", font="Aerial 15 bold")
+        self.btn_total = Button(self.frm1, text="Done", font="Aerial 15 bold")
         self.btn_total.place(x=270, y=13)
         # =================================================bill area====================
         self.frame = Frame(self.emp_window, bd=10, relief=GROOVE)
         self.frame.place(x=450, y=60, width=350, height=380)
-        self.frame.config(bg="white")
         self.bill_title = Label(self.frame, text="BILL Area", font="arial 15 bold", bd=7, relief=GROOVE).pack(fill=Y)
         scrol_y = Scrollbar(self.frame, orient=VERTICAL)
         self.txtarea = Text(self.frame, yscrollcommand=scrol_y.set)
         scrol_y.pack(side=RIGHT, fill=X)
         scrol_y.config(command=self.txtarea.yview)
         self.txtarea.pack(fill=BOTH, expand=1)
+        self.txtarea.config(bg="white")
+        self.shoplabel = Label(self.txtarea, text="Hawaii shoppers !!!", font="Aerial 10 bold")
+        self.shoplabel.place(x=60, y=10)
+        self.shoplabel.config(bg="white")
         # =================================================bill area====================
         self.paylabel = Label(self.emp_window, text="Amount paid", font="Aerial 12 bold")
         self.paylabel.place(x=800, y=60)
@@ -277,6 +284,10 @@ class employee():
         self.totalpaylabel.place(x=800, y=160)
         self.totalguds = Entry(self.emp_window)
         self.totalguds.place(x=800, y=200)
+        self.balancelabel = Label(self.emp_window, text="Balance", font="Aerial 12 bold")
+        self.balancelabel.place(x=820, y=240)
+        self.balance_ent = Entry(self.emp_window)
+        self.balance_ent.place(x=800, y=280)
 
     def search_pro(self):
         searchCode = self.search_code.get()
@@ -292,16 +303,20 @@ class employee():
              self.ent_categ.insert(END, x[2])
              self.ent_price.delete(0, END)
              self.ent_price.insert(END, x[3])
-             self.ent_quant.delete(0, END)
+             self.quantAvailabel.delete(0, END)
+             self.quantAvailabel.insert(END, x[4])
+
+             return None
 
         except Exception:
-            tkinter.messagebox.showerror("null","product does not exist")
+            tkinter.messagebox.showerror("null", "product does not exist")
     def reset(self):
         self.search_code.delete(0, END)
         self.proName_ent.delete(0, END)
         self.ent_quant.delete(0, END)
         self.ent_price.delete(0, END)
         self.ent_categ.delete(0, END)
+        self.quantAvailabel.delete(0, END)
 
     def run(self):
         self.emp_window.mainloop()
