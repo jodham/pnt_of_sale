@@ -172,12 +172,11 @@ class manager_window:
             mydata = (procode, proName, category1, quantity_ent, price)
             try:
              mycur.execute(query, mydata)
-            except mysql.connector.Error as e:
-                try:
+            except mysql.connector.Error:
                     tkinter.messagebox.showerror("duplicate","product"+" "+procode +" "+"Exists")
                    # print("MYsql Error [%d]: %s" %(e.args[0], e.args[1]))
                     return None
-                except IndexError:
+            except IndexError as e:
                     print("MySQL Error: %s" %str(e))
                     return None
             except TypeError as e:
@@ -262,18 +261,23 @@ class employee():
 
     def search_pro(self):
         searchCode = self.search_code.get()
-
+        if searchCode =="":
+            tkinter.messagebox.showerror("error", "enter product code")
         try:
-            sql_query = "SELECT * FROM tbl_product WHERE productCode ="+searchCode
-            mycur.execute(sql_query)
-            data = mycur.fetchall()
-            for tup in data:
-                self.proName_ent.text = tup[1]
-                self.ent_categ.text = tup[2]
-        except ValueError as e:
-            tkinter.messagebox.showerror("error", "database error")
+            mycur.execute("SELECT * FROM tbl_product WHERE productCode='"+searchCode+"'")
+            myresult = mycur.fetchall()
+            for x in myresult:
+             self.proName_ent.delete(0, END)
+             self.proName_ent.insert(END, x[1])
+             self.ent_categ.delete(0, END)
+             self.ent_categ.insert(END, x[2])
 
-        # -----------------------------------------calculator------------------
+        except Exception as e:
+            tkinter.messagebox.showerror("null", e)
+
+        # ---------------------------------------joe
+        #
+        # --calculator------------------
         self.display_ent = Entry(self.emp_window)
         self.display_ent.place(x=340, y=90)
         self.btn7 = Button(self.emp_window, text="7", font='times 9 bold')
