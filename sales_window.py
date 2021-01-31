@@ -250,8 +250,8 @@ class employee():
         self.quantAvailabel.place(x=300, y=240, width=45)
         self.ent_quant = Entry(self.emp_window)
         self.ent_quant.place(x=130, y=240)
-        self.Btn_add = Button(self.emp_window, text="Add to cart", font="Aerial 15 bold")
-        self.Btn_add.place(x=25, y=300)
+        self.Btn_add_cart = Button(self.emp_window, text="Add to cart", font="Aerial 15 bold", command=self.add_cart)
+        self.Btn_add_cart.place(x=25, y=300)
         self.btn_clear = Button(self.emp_window, text="Clear", font="Aerial 15 bold", command=self.reset)
         self.btn_clear.place(x=250, y=300)
         self.frm1 = Frame(self.emp_window, bd=10, relief=GROOVE)
@@ -275,23 +275,49 @@ class employee():
         self.shoplabel = Label(self.txtarea, text="Hawaii shoppers !!!", font="Aerial 10 bold")
         self.shoplabel.place(x=60, y=10)
         self.shoplabel.config(bg="white")
+        self.shoplabel = Label(self.txtarea, text="shop with us", font="Aerial 10 bold")
+        self.shoplabel.place(x=60, y=40)
+        self.shoplabel.config(bg="white")
+        self.shoplabel = Label(self.txtarea, text="===========================",
+                               font="Aerial 10 bold")
+        self.shoplabel.place(x=2, y=70)
+        self.shoplabel.config(bg="white")
+        self.tagLabel = Label(self.txtarea, text="Name.            price/unit.          qnty.          total.")
+        self.tagLabel.place(x=2, y=90)
+        self.tagLabel.config(bg="white")
         # =================================================bill area====================
         self.paylabel = Label(self.emp_window, text="Amount paid", font="Aerial 12 bold")
-        self.paylabel.place(x=800, y=60)
+        self.paylabel.place(x=800, y=160)
         self.pay_ent = Entry(self.emp_window)
-        self.pay_ent.place(x=800, y=100)
-        self.totalpaylabel = Label(self.emp_window, text="Amount of Goods", font="Aerial 12 bold")
-        self.totalpaylabel.place(x=800, y=160)
+        self.pay_ent.place(x=800, y=200)
+        self.totalpaylabel = Label(self.emp_window, text="Cost of Goods", font="Aerial 12 bold")
+        self.totalpaylabel.place(x=800, y=60)
         self.totalguds = Entry(self.emp_window)
-        self.totalguds.place(x=800, y=200)
+        self.totalguds.place(x=800, y=100)
         self.balancelabel = Label(self.emp_window, text="Balance", font="Aerial 12 bold")
         self.balancelabel.place(x=820, y=240)
         self.balance_ent = Entry(self.emp_window)
         self.balance_ent.place(x=800, y=280)
 
+    def add_cart(self):
+
+        proName = self.proName_ent.get()
+        price = self.ent_price.get()
+        quantity = self.ent_quant.get()
+        self.prolabel = Label(self.txtarea, text=proName, font="Aerial 10 bold")
+        self.prolabel.place(x=2, y=120)
+        self.prolabel.config(bg="white")
+        self.pricelabel = Label(self.txtarea, text=price, font="Aerial 10 bold")
+        self.pricelabel.place(x=90, y=120)
+        self.pricelabel.config(bg="white")
+        self.quantlabel = Label(self.txtarea, text=quantity, font="Aerial 10 bold")
+        self.quantlabel.place(x=210, y=120)
+        self.quantlabel.config(bg="white")
+
+
     def search_pro(self):
         searchCode = self.search_code.get()
-        if searchCode =="":
+        if searchCode == "":
             tkinter.messagebox.showerror("error", "enter product code")
         try:
             mycur.execute("SELECT * FROM tbl_product WHERE productCode='"+searchCode+"'")
