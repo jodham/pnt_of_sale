@@ -174,7 +174,6 @@ class manager_window:
              mycur.execute(query, mydata)
             except mysql.connector.Error:
                     tkinter.messagebox.showerror("duplicate","product"+" "+procode +" "+"Exists")
-                   # print("MYsql Error [%d]: %s" %(e.args[0], e.args[1]))
                     return None
             except IndexError as e:
                     print("MySQL Error: %s" %str(e))
@@ -248,7 +247,7 @@ class employee():
         self.ent_quant.place(x=130, y=240)
         self.Btn_add = Button(self.emp_window, text="Add to cart", font="Aerial 15 bold")
         self.Btn_add.place(x=25, y=300)
-        self.btn_clear = Button(self.emp_window, text="Clear", font="Aerial 15 bold")
+        self.btn_clear = Button(self.emp_window, text="Clear", font="Aerial 15 bold", command=self.reset)
         self.btn_clear.place(x=250, y=300)
         self.frm1 = Frame(self.emp_window, bd=10, relief=GROOVE)
         self.frm1.place(x=25, y=400, width=420, height=90)
@@ -271,59 +270,23 @@ class employee():
              self.proName_ent.insert(END, x[1])
              self.ent_categ.delete(0, END)
              self.ent_categ.insert(END, x[2])
+             self.ent_price.delete(0, END)
+             self.ent_price.insert(END, x[3])
+             self.ent_quant.delete(0, END)
 
-        except Exception as e:
-            tkinter.messagebox.showerror("null", e)
+        except Exception:
+            tkinter.messagebox.showerror("null","product does not exist")
+    def reset(self):
+        self.search_code.delete(0, END)
+        self.proName_ent.delete(0, END)
+        self.ent_quant.delete(0, END)
+        self.ent_price.delete(0, END)
+        self.ent_categ.delete(0, END)
 
-        # ---------------------------------------joe
-        #
-        # --calculator------------------
-        self.display_ent = Entry(self.emp_window)
-        self.display_ent.place(x=340, y=90)
-        self.btn7 = Button(self.emp_window, text="7", font='times 9 bold')
-        self.btn7.place(x=340, y=120)
-        self.btn8 = Button(self.emp_window, text="8", font='times 9 bold')
-        self.btn8.place(x=380, y=120)
-        self.btn9 = Button(self.emp_window, text="9", font='times 9 bold')
-        self.btn9.place(x=420, y=120)
-        self.btn_add = Button(self.emp_window, text="+", font='times 9 bold')
-        self.btn_add.place(x=460, y=120)
-        self.btn6 = Button(self.emp_window, text="6", font='times 9 bold')
-        self.btn6.place(x=340, y=160)
-        self.btn5 = Button(self.emp_window, text="5", font='times 9 bold')
-        self.btn5.place(x=380, y=160)
-        self.btn4 = Button(self.emp_window, text="4", font='times 9 bold')
-        self.btn4.place(x=420, y=160)
-        self.btn_multiply = Button(self.emp_window, text="*", font='times 9 bold')
-        self.btn_multiply.place(x=460, y=160)
-        self.btn3 = Button(self.emp_window, text="3", font='times 9 bold')
-        self.btn3.place(x=340, y=200)
-        self.btn2 = Button(self.emp_window, text="2", font='times 9 bold')
-        self.btn2.place(x=380, y=200)
-        self.btn1 = Button(self.emp_window, text="1", font='times 9 bold')
-        self.btn1.place(x=420, y=200)
-        self.btn_division = Button(self.emp_window, text="/", font='times 9 bold')
-        self.btn_division.place(x=460, y=200)
-        self.btn0 = Button(self.emp_window, text="0", font='times 9 bold')
-        self.btn0.place(x=340, y=240)
-        self.btn_dot = Button(self.emp_window, text=".", font='times 9 bold')
-        self.btn_dot.place(x=380, y=240)
-        self.btn_equal = Button(self.emp_window, text="=", font='times 9 bold')
-        self.btn_equal.place(x=420, y=240)
-        self.btn_sub = Button(self.emp_window, text="-", font='times 9 bold')
-        self.btn_sub.place(x=460, y=240)
-
-        # ------------------------------------------calculator-------------------
         # =================================================bill area====================
-        self.frame = Frame(self.emp_window, bd=10, relief=GROOVE)
-        self.frame.place(x=560, y=60, width=350, height=380)
-        self.bill_title = Label(self.frame, text="BILL Area", font="arial 15 bold", bd=7, relief=GROOVE).pack(fill=Y)
-        scrol_y = Scrollbar(self.frame, orient=VERTICAL)
-        self.txtarea = Text(self.frame, yscrollcommand=scrol_y.set)
-        scrol_y.pack(side=RIGHT, fill=X)
-        scrol_y.config(command=self.txtarea.yview)
-        self.txtarea.pack(fill=BOTH, expand=1)
+        self.label5 = Label(self.emp_window, text="bill area", font="Aerial 12 bold")
+        self.label5.place(x=560, y=100)
 
-    # =================================================bill area====================
+        # =================================================bill area====================
     def run(self):
         self.emp_window.mainloop()
