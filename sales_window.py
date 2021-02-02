@@ -256,7 +256,7 @@ class employee():
         self.btn_clear.place(x=250, y=300)
         self.frm1 = Frame(self.emp_window, bd=10, relief=GROOVE)
         self.frm1.place(x=450, y=500, width=420, height=90)
-        self.btn_total = Button(self.frm1, text="Total", font="Aerial 15 bold")
+        self.btn_total = Button(self.frm1, text="Total", font="Aerial 15 bold", command=self.totalguds)
         self.btn_total.place(x=2, y=13)
         self.btn_total = Button(self.frm1, text="Bill", font="Aerial 15 bold")
         self.btn_total.place(x=150, y=13)
@@ -302,6 +302,11 @@ class employee():
         self.balance_ent = Entry(self.emp_window)
         self.balance_ent.place(x=800, y=280)
 
+    def totalguds(self):
+        amnt = self.totallabel
+        for x in amnt:
+            print(sum(x))
+
     def add_cart(self):
 
         proName = self.proName_ent.get()
@@ -316,18 +321,18 @@ class employee():
             self.pro_frame = Frame(self.txtarea, height=27)
             self.pro_frame.pack(fill="x")
             self.pro_frame.config(bg="white")
-            self.pricelabel = Label(self.pro_frame, text=proName, font="Aerial 10 bold")
-            self.pricelabel.place(x=2, y=2)
-            self.pricelabel.config(bg="white")
+            self.productName = Label(self.pro_frame, text=proName, font="Aerial 10 bold")
+            self.productName.place(x=2, y=2)
+            self.productName.config(bg="white")
             self.pricelabel = Label(self.pro_frame, text=price, font="Aerial 10 bold")
             self.pricelabel.place(x=110, y=2)
             self.pricelabel.config(bg="white")
-            self.pricelabel = Label(self.pro_frame, text=quantity, font="Aerial 10 bold")
-            self.pricelabel.place(x=200, y=2)
-            self.pricelabel.config(bg="white")
-            self.pricelabel = Label(self.pro_frame, text=price*quantity, font="Aerial 10 bold")
-            self.pricelabel.place(x=280, y=2)
-            self.pricelabel.config(bg="white")
+            self.quantitylabel = Label(self.pro_frame, text=quantity, font="Aerial 10 bold")
+            self.quantitylabel.place(x=200, y=2)
+            self.quantitylabel.config(bg="white")
+            self.totallabel = Label(self.pro_frame, text=price*quantity, font="Aerial 10 bold")
+            self.totallabel.place(x=280, y=2)
+            self.totallabel.config(bg="white")
 
 
     def search_pro(self):
