@@ -260,7 +260,7 @@ class employee():
         self.btn_clear.place(x=250, y=300)
         self.frm1 = Frame(self.emp_window, bd=10, relief=GROOVE)
         self.frm1.place(x=450, y=500, width=420, height=90)
-        self.btn_total = Button(self.frm1, text="Total", font="Aerial 15 bold", command=self.totalguds)
+        self.btn_total = Button(self.frm1, text="Total", font="Aerial 15 bold")
         self.btn_total.place(x=2, y=13)
         self.btn_total = Button(self.frm1, text="Bill", font="Aerial 15 bold")
         self.btn_total.place(x=150, y=13)
@@ -306,10 +306,6 @@ class employee():
         self.balance_ent = Entry(self.emp_window)
         self.balance_ent.place(x=800, y=280)
 
-    def totalguds(self):
-        amnt = self.totallabel
-        for x in amnt:
-            print(sum(x))
 
     def add_cart(self):
 
@@ -319,7 +315,6 @@ class employee():
         if intquantity == "":
             tkinter.messagebox.showerror("null", "fill quantity")
         else:
-
             price = int(intprice)
             quantity = int(intquantity)
             self.pro_frame = Frame(self.txtarea, height=27)
@@ -338,13 +333,9 @@ class employee():
             self.totallabel.place(x=280, y=2)
             self.totallabel.config(bg="white")
             totalguds.append(price*quantity)
-            for i in totalguds:
-                if len(totalguds) == 1:
-                    print(i)
-                elif len(totalguds) ==2:
-                    print(totalguds.index(0))
-                else:
-                    print(len(totalguds))
+            amnt = sum(totalguds)
+            self.totalguds.delete(0, END)
+            self.totalguds.insert(END, amnt)
 
     def search_pro(self):
         searchCode = self.search_code.get()
