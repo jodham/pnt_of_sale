@@ -2,6 +2,8 @@ from tkinter import *
 import tkinter.messagebox
 import mysql.connector
 
+totalguds = []
+summedtotal = []
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -23,7 +25,8 @@ class manager_window:
         self.title_frame.config(bg="blue")
         self.add_user_btn = Button(self.title_frame, text="Add User", font="Aerial 10 bold", command=self.add_user)
         self.add_user_btn.place(x=2, y=1)
-        self.add_prod_btn = Button(self.title_frame, text="Add Product", font="Aerial 10 bold", command=self.new_product)
+        self.add_prod_btn = Button(self.title_frame, text="Add Product", font="Aerial 10 bold",
+                                   command=self.new_product)
         self.add_prod_btn.place(x=120, y=1)
         self.chek_price_btn = Button(self.title_frame, text="Price Check", font="Aerial 10 bold",
                                      command=self.price_check)
@@ -167,7 +170,7 @@ class manager_window:
         quantity_ent = self.quantity_ent.get()
         price = self.price_ent.get()
 
-        if procode or proName or category1 or quantity_ent or price !="":
+        if procode or proName or category1 or quantity_ent or price != "":
 
             query = "INSERT INTO tbl_product(productCode, productName, category, quantity, unitPrice) VALUES (%s,%s,%s,%s,%s)"
             mydata = (procode, proName, category1, quantity_ent, price)
@@ -193,6 +196,7 @@ class manager_window:
             raise ValueError
         else:
             tkinter.messagebox.showerror("null value", "fill all values")
+
     def price_check(self):
         self.add_price_frame = Frame(self.root, bd=10, relief=GROOVE)
         self.add_price_frame.place(x=320, y=100, width=600, height=400)
@@ -312,12 +316,12 @@ class employee():
         proName = self.proName_ent.get()
         intprice = self.ent_price.get()
         intquantity = self.ent_quant.get()
-        if intquantity =="":
+        if intquantity == "":
             tkinter.messagebox.showerror("null", "fill quantity")
         else:
 
-            price =int(intprice)
-            quantity= int(intquantity)
+            price = int(intprice)
+            quantity = int(intquantity)
             self.pro_frame = Frame(self.txtarea, height=27)
             self.pro_frame.pack(fill="x")
             self.pro_frame.config(bg="white")
@@ -330,32 +334,38 @@ class employee():
             self.quantitylabel = Label(self.pro_frame, text=quantity, font="Aerial 10 bold")
             self.quantitylabel.place(x=200, y=2)
             self.quantitylabel.config(bg="white")
-            self.totallabel = Label(self.pro_frame, text=price*quantity, font="Aerial 10 bold")
+            self.totallabel = Label(self.pro_frame, text=price * quantity, font="Aerial 10 bold")
             self.totallabel.place(x=280, y=2)
             self.totallabel.config(bg="white")
-
+            totalguds.append(price*quantity)
+            for i in totalguds:
+                if len(totalguds) == 1:
+                    print(i)
+                elif len(totalguds) ==2:
+                    print(totalguds.index(0))
+                else:
+                    print(len(totalguds))
 
     def search_pro(self):
         searchCode = self.search_code.get()
         if searchCode == "":
             tkinter.messagebox.showerror("error", "enter product code")
         try:
-            mycur.execute("SELECT * FROM tbl_product WHERE productCode='"+searchCode+"'")
+            mycur.execute("SELECT * FROM tbl_product WHERE productCode='" + searchCode + "'")
             myresult = mycur.fetchall()
             for x in myresult:
-             self.proName_ent.delete(0, END)
-             self.proName_ent.insert(END, x[1])
-             self.ent_categ.delete(0, END)
-             self.ent_categ.insert(END, x[2])
-             self.ent_price.delete(0, END)
-             self.ent_price.insert(END, x[3])
-             self.quantAvailabel.delete(0, END)
-             self.quantAvailabel.insert(END, x[4])
-
-             return None
-
-        except Exception:
+                self.proName_ent.delete(0, END)
+                self.proName_ent.insert(END, x[1])
+                self.ent_categ.delete(0, END)
+                self.ent_categ.insert(END, x[2])
+                self.ent_price.delete(0, END)
+                self.ent_price.insert(END, x[3])
+                self.quantAvailabel.delete(0, END)
+                self.quantAvailabel.insert(END, x[4])
+                return None
+        finally:
             tkinter.messagebox.showerror("null", "product does not exist")
+
     def reset(self):
         self.search_code.delete(0, END)
         self.proName_ent.delete(0, END)
