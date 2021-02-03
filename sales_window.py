@@ -301,10 +301,25 @@ class employee():
         self.totalpaylabel.place(x=800, y=60)
         self.totalguds = Entry(self.emp_window)
         self.totalguds.place(x=800, y=100)
-        self.balancelabel = Label(self.emp_window, text="Balance", font="Aerial 12 bold")
+        self.balancelabel = Button(self.emp_window, text="Balance", font="Aerial 12 bold", command=self.balance)
         self.balancelabel.place(x=820, y=240)
         self.balance_ent = Entry(self.emp_window)
         self.balance_ent.place(x=800, y=280)
+    def balance(self):
+        gudstotal = self.totalguds.get()
+        totalpaid = self.pay_ent.get()
+        sumOfguds = int(gudstotal)
+        customerpay = int(totalpaid)
+        if self.pay_ent =="":
+            tkinter.messagebox.showerror("null","enter customer pay")
+        elif sumOfguds > customerpay:
+            tkinter.messagebox.showerror("lowpay", "insufficient customer pay")
+        elif customerpay >= sumOfguds:
+            bal = customerpay - sumOfguds
+            self.balance_ent.delete(0, END)
+            self.balance_ent.insert(END, bal)
+        else:
+            tkinter.messagebox.showerror("error", "invalid entry")
 
 
     def add_cart(self):
