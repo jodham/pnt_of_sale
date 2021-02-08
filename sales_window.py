@@ -3,7 +3,7 @@ import tkinter.messagebox
 import mysql.connector
 
 totalguds = []
-summedtotal = []
+availableproducts= []
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -262,10 +262,8 @@ class employee():
         self.frm1.place(x=450, y=500, width=420, height=90)
         self.btn_total = Button(self.frm1, text="Total", font="Aerial 15 bold")
         self.btn_total.place(x=2, y=13)
-        self.btn_total = Button(self.frm1, text="Bill", font="Aerial 15 bold")
-        self.btn_total.place(x=150, y=13)
-        self.btn_total = Button(self.frm1, text="Done", font="Aerial 15 bold")
-        self.btn_total.place(x=270, y=13)
+        self.btn_total = Button(self.frm1, text="Print Receipt", font="Aerial 15 bold", command=self.receipt)
+        self.btn_total.place(x=200, y=13)
         # =================================================bill area====================
         self.frame = Frame(self.emp_window, bd=10, relief=GROOVE)
         self.frame.place(x=450, y=60, width=350, height=380)
@@ -305,13 +303,19 @@ class employee():
         self.balancelabel.place(x=820, y=240)
         self.balance_ent = Entry(self.emp_window)
         self.balance_ent.place(x=800, y=280)
+
+    def receipt(self):
+        totalguds.clear()
+        self.txtarea.delete(4.0, END)
+        tkinter.messagebox.showinfo("THANK U!!!", "Welcome Again")
+
     def balance(self):
         gudstotal = self.totalguds.get()
         totalpaid = self.pay_ent.get()
         sumOfguds = int(gudstotal)
         customerpay = int(totalpaid)
-        if self.pay_ent =="":
-            tkinter.messagebox.showerror("null","enter customer pay")
+        if self.pay_ent == "":
+            tkinter.messagebox.showerror("null", "enter customer pay")
         elif sumOfguds > customerpay:
             tkinter.messagebox.showerror("lowpay", "insufficient customer pay")
         elif customerpay >= sumOfguds:
@@ -327,11 +331,17 @@ class employee():
         proName = self.proName_ent.get()
         intprice = self.ent_price.get()
         intquantity = self.ent_quant.get()
+        price = int(intprice)
+        quantity = int(intquantity)
+        current_quantity = self.quantAvailabel.get()
+        curr_quant = int(current_quantity)
+        new_quant = curr_quant - quantity
+        new_quantity = str(new_quant)
         if intquantity == "":
             tkinter.messagebox.showerror("null", "fill quantity")
+        elif curr_quant < quantity:
+            tkinter.messagebox.showerror("value error", "purchase quantity more than stock")
         else:
-            price = int(intprice)
-            quantity = int(intquantity)
             self.pro_frame = Frame(self.txtarea, height=27)
             self.pro_frame.pack(fill="x")
             self.pro_frame.config(bg="white")
@@ -351,8 +361,13 @@ class employee():
             amnt = sum(totalguds)
             self.totalguds.delete(0, END)
             self.totalguds.insert(END, amnt)
+            sql = "UPDATE tbl_product SET quantity ='"+new_quantity+"' WHERE productCode ='"+searchCode+"'"
+            mycur.execute(sql)
+            mydb.commit()
 
     def search_pro(self):
+        global searchCode
+
         searchCode = self.search_code.get()
         if searchCode == "":
             tkinter.messagebox.showerror("error", "enter product code")
@@ -365,12 +380,12 @@ class employee():
                 self.ent_categ.delete(0, END)
                 self.ent_categ.insert(END, x[2])
                 self.ent_price.delete(0, END)
-                self.ent_price.insert(END, x[3])
+                self.ent_price.insert(END, x[4])
                 self.quantAvailabel.delete(0, END)
-                self.quantAvailabel.insert(END, x[4])
-                return None
+                self.quantAvailabel.insert(END, x[3])
+
         finally:
-            tkinter.messagebox.showerror("null", "product does not exist")
+            tkinter.messagebox.showerror('null', 'invalid code')
 
     def reset(self):
         self.search_code.delete(0, END)
