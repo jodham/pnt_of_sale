@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.messagebox
 import mysql.connector
+from mysql.connector import IntegrityError, DataError
 
 totalguds = []
 availableproducts= []
@@ -175,9 +176,9 @@ class manager_window:
         price = self.price_ent.get()
 
         if procode == "":
-            tkinter.messagebox.showerror("null","enter product code")
+            tkinter.messagebox.showerror("null", "enter product code")
         elif proName == "":
-            tkinter.messagebox.showerror("null value","enter product Name")
+            tkinter.messagebox.showerror("null value", "enter product Name")
         elif category1 == "":
             tkinter.messagebox.showerror("null value", "enter product Category")
         elif quantity_ent == "":
@@ -190,29 +191,31 @@ class manager_window:
             mydata = (procode, proName, category1, quantity_ent, price)
             try:
                 mycur.execute(query, mydata)
-            except mysql.connector.Error:
-                tkinter.messagebox.showerror("duplicate", "product" + " " + procode + " " + "Exists")
-                return None
-            except IndexError as e:
-                print("MySQL Error: %s" % str(e))
-                return None
-            except TypeError as e:
-                print(e)
-                return None
-            except ValueError:
-                tkinter.messagebox.showerror("error", "float value or int expected")
-                return None
+            except IntegrityError as e:
+                tkinter.messagebox.showerror("duplicate", e)
+            except DataError as e:
+                tkinter.messagebox.showerror("typing error", e)
             else:
                 mydb.commit()
                 tkinter.messagebox.showinfo("success!!", "product added")
 
     def price_check(self):
-        self.add_price_frame = Frame(self.root, bd=10, relief=GROOVE)
-        self.add_price_frame.place(x=320, y=100, width=600, height=400)
-        self.add_price_frame.config(bg="blue")
-        self.exit_btn = Button(self.add_price_frame, text="X", font="times 20 bold",
-                               command=self.add_price_frame.destroy)
+        self.update_product_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.update_product_frame.place(x=320, y=100, width=600, height=400)
+        self.update_product_frame.config(bg="blue")
+        self.exit_btn = Button(self.update_product_frame, text="X", font="times 20 bold",
+                               command=self.update_product_frame.destroy)
         self.exit_btn.place(x=530, y=5)
+        self.update_label = Label(self.update_product_frame, text="Update Product", font="Aerial 12 bold")
+        self.update_label.place(x=200, y=10)
+        self.product_name_ent = Entry(self.update_product_frame)
+        self.product_name_ent.place(x=50, y=70)
+        self.product_name_btn = Button(self.update_product_frame, text="Search", font="Aerial 10 bold")
+        self.product_name_btn.place(x=280, y=70)
+        self.product_name_ent = Entry(self.update_product_frame)
+        self.product_name_ent.place(x=50, y=130)
+        self.product_name_ent = Entry(self.update_product_frame)
+        self.product_name_ent.place(x=50, y=130)
 
     def stock(self):
         self.stock_frame = Frame(self.root, bd=10, relief=GROOVE)
