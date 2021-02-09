@@ -93,11 +93,19 @@ class manager_window:
         self.categ_ent.delete(0, END)
 
     def new_user(self):
-        cusId = self.id_ent.get()
         username = self.user_ent.get()
+        cusId = self.id_ent.get()
         password = self.psw_ent.get()
         category = self.categ_ent.get()
-        if cusId or username or password or category != "":
+        if username == "":
+            tkinter.messagebox.showerror("null","enter username")
+        elif cusId == "":
+            tkinter.messagebox.showerror("null", "enter customer id")
+        elif password == "":
+            tkinter.messagebox.showerror("null", "enter password")
+        elif category == "":
+            tkinter.messagebox.showerror("null", "enter category")
+        else:
             sql = "INSERT INTO tbl_user(id, username, password, category) VALUES (%s,%s,%s,%s)"
             val = (cusId, username, password, category)
             mycur.execute(sql, val)
@@ -107,10 +115,6 @@ class manager_window:
             self.id_ent.delete(0, END)
             self.psw_ent.delete(0, END)
             self.categ_ent.delete(0, END)
-
-        else:
-            tkinter.messagebox.showerror("null value", "fill all fields")
-
     def run(self):
         self.root.mainloop()
 
@@ -170,9 +174,19 @@ class manager_window:
         quantity_ent = self.quantity_ent.get()
         price = self.price_ent.get()
 
-        if procode or proName or category1 or quantity_ent or price != "":
-
-            query = "INSERT INTO tbl_product(productCode, productName, category, quantity, unitPrice) VALUES (%s,%s,%s,%s,%s)"
+        if procode == "":
+            tkinter.messagebox.showerror("null","enter product code")
+        elif proName == "":
+            tkinter.messagebox.showerror("null value","enter product Name")
+        elif category1 == "":
+            tkinter.messagebox.showerror("null value", "enter product Category")
+        elif quantity_ent == "":
+            tkinter.messagebox.showerror("null value", "enter product quantity")
+        elif price == "":
+            tkinter.messagebox.showerror("null value", "enter product price")
+        else:
+            query = "INSERT INTO tbl_product(productCode, productName, category, quantity, unitPrice) VALUES (%s,%s," \
+                    "%s,%s,%s) "
             mydata = (procode, proName, category1, quantity_ent, price)
             try:
                 mycur.execute(query, mydata)
@@ -188,14 +202,9 @@ class manager_window:
             except ValueError:
                 tkinter.messagebox.showerror("error", "float value or int expected")
                 return None
-
             else:
                 mydb.commit()
                 tkinter.messagebox.showinfo("success!!", "product added")
-        elif self.quantity_ent or self.price_ent != float:
-            raise ValueError
-        else:
-            tkinter.messagebox.showerror("null value", "fill all values")
 
     def price_check(self):
         self.add_price_frame = Frame(self.root, bd=10, relief=GROOVE)
