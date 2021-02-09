@@ -29,11 +29,11 @@ class manager_window:
         self.add_prod_btn = Button(self.title_frame, text="Add Product", font="Aerial 10 bold",
                                    command=self.new_product)
         self.add_prod_btn.place(x=120, y=1)
-        self.chek_price_btn = Button(self.title_frame, text="Price Check", font="Aerial 10 bold",
+        self.chek_price_btn = Button(self.title_frame, text="Update Product", font="Aerial 10 bold",
                                      command=self.price_check)
         self.chek_price_btn.place(x=270, y=1)
         self.chek_stock_btn = Button(self.title_frame, text="Stock Check", font="Aerial 10 bold", command=self.stock)
-        self.chek_stock_btn.place(x=410, y=1)
+        self.chek_stock_btn.place(x=430, y=1)
         self.side_frame = Frame(self.root, bd=10, relief=GROOVE)
         self.side_frame.place(x=200, y=100, width=110, height=400)
         self.side_frame.config(bg="white")
@@ -99,7 +99,7 @@ class manager_window:
         password = self.psw_ent.get()
         category = self.categ_ent.get()
         if username == "":
-            tkinter.messagebox.showerror("null","enter username")
+            tkinter.messagebox.showerror("null", "enter username")
         elif cusId == "":
             tkinter.messagebox.showerror("null", "enter customer id")
         elif password == "":
@@ -116,6 +116,7 @@ class manager_window:
             self.id_ent.delete(0, END)
             self.psw_ent.delete(0, END)
             self.categ_ent.delete(0, END)
+
     def run(self):
         self.root.mainloop()
 
@@ -208,14 +209,36 @@ class manager_window:
         self.exit_btn.place(x=530, y=5)
         self.update_label = Label(self.update_product_frame, text="Update Product", font="Aerial 12 bold")
         self.update_label.place(x=200, y=10)
+        self.update_label.config(bg='blue')
         self.product_name_ent = Entry(self.update_product_frame)
-        self.product_name_ent.place(x=50, y=70)
+        self.product_name_ent.place(x=150, y=70)
+        self.label = Label(self.update_product_frame, text="Product Name", font="Aerial 10 bold")
+        self.label.place(x=20, y=70)
+        self.label.config(bg="blue")
         self.product_name_btn = Button(self.update_product_frame, text="Search", font="Aerial 10 bold")
-        self.product_name_btn.place(x=280, y=70)
+        self.product_name_btn.place(x=340, y=70)
+        self.label = Label(self.update_product_frame, text="Product Code", font="Aerial 10 bold")
+        self.label.place(x=20, y=120)
+        self.label.config(bg="blue")
         self.product_name_ent = Entry(self.update_product_frame)
-        self.product_name_ent.place(x=50, y=130)
+        self.product_name_ent.place(x=150, y=120)
+        self.label = Label(self.update_product_frame, text="Category", font="Aerial 10 bold")
+        self.label.place(x=20, y=170)
+        self.label.config(bg="blue")
         self.product_name_ent = Entry(self.update_product_frame)
-        self.product_name_ent.place(x=50, y=130)
+        self.product_name_ent.place(x=150, y=170)
+        self.label = Label(self.update_product_frame, text="Quantity", font="Aerial 10 bold")
+        self.label.place(x=20, y=220)
+        self.label.config(bg="blue")
+        self.product_name_ent = Entry(self.update_product_frame)
+        self.product_name_ent.place(x=150, y=220)
+        self.label = Label(self.update_product_frame, text="Price/Unit", font="Aerial 10 bold")
+        self.label.place(x=20, y=270)
+        self.label.config(bg='blue')
+        self.product_name_ent = Entry(self.update_product_frame)
+        self.product_name_ent.place(x=150, y=270)
+        self.product_name_btn = Button(self.update_product_frame, text="Update", font="Aerial 10 bold")
+        self.product_name_btn.place(x=80, y=330)
 
     def stock(self):
         self.stock_frame = Frame(self.root, bd=10, relief=GROOVE)
