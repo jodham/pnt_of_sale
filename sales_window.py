@@ -40,18 +40,46 @@ class manager_window:
         self.display_frame = Frame(self.root, bd=10, relief=GROOVE)
         self.display_frame.place(x=320, y=100, width=600, height=400)
         self.display_frame.config(bg="white")
-        self.product_display_btn = Button(self.side_frame, text="Products", font="Aerial 8 bold")
+        self.product_display_btn = Button(self.side_frame, text="Products", font="Aerial 8 bold", command=self.availableproducts)
         self.product_display_btn.place(x=1, y=1, height=60, width=90)
-        self.employees_btn = Button(self.side_frame, text="Employees", font="Aerial 8 bold")
+        self.employees_btn = Button(self.side_frame, text="Employees", font="Aerial 8 bold", command=self.employees)
         self.employees_btn.place(x=1, y=60, height=60)
         self.users_btn = Button(self.side_frame, text="Users", font="Aerial 8 bold")
         self.users_btn.place(x=1, y=120, height=60, width=90)
-        self.supplier_btn = Button(self.side_frame, text="Supplier", font="Aerial 8 bold")
+        self.supplier_btn = Button(self.side_frame, text="Supplier", font="Aerial 8 bold", command=self.suppliers)
         self.supplier_btn.place(x=1, y=180, height=60, width=90)
         self.password_btn = Button(self.side_frame, text="Change", font="Aerial 8 bold")
         self.password_btn.place(x=1, y=240, height=60, width=90)
-        self.about_btn = Button(self.side_frame, text="About", font="Aerial 8 bold")
+        self.about_btn = Button(self.side_frame, text="About", font="Aerial 8 bold", command=self.aboutdev)
         self.about_btn.place(x=1, y=300, height=60, width=90)
+
+    def availableproducts(self):
+        self.products_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.products_frame.place(x=320, y=100, width=600, height=400)
+        self.products_frame.config(bg="blue")
+        self.exit_btn = Button(self.products_frame, text="X", font="times 20 bold", command=self.products_frame.destroy)
+        self.exit_btn.place(x=530, y=5)
+
+    def employees(self):
+        self.employee_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.employee_frame.place(x=320, y=100, width=600, height=400)
+        self.employee_frame.config(bg="silver")
+        self.exit_btn = Button(self.employee_frame, text="X", font="times 20 bold", command=self.employee_frame.destroy)
+        self.exit_btn.place(x=530, y=5)
+
+    def suppliers(self):
+        self.supplier_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.supplier_frame.place(x=320, y=100, width=600, height=400)
+        self.supplier_frame.config(bg="grey")
+        self.exit_btn = Button(self.supplier_frame, text="X", font="times 20 bold", command=self.supplier_frame.destroy)
+        self.exit_btn.place(x=530, y=5)
+
+    def aboutdev(self):
+        self.dev_frame = Frame(self.root, bd=10, relief=GROOVE)
+        self.dev_frame.place(x=320, y=100, width=600, height=400)
+        self.dev_frame.config(bg="grey")
+        self.exit_btn = Button(self.dev_frame, text="X", font="times 20 bold", command=self.dev_frame.destroy)
+        self.exit_btn.place(x=530, y=5)
 
     def add_user(self):
         self.add_user_frame = Frame(self.root, bd=10, relief=GROOVE)
@@ -109,13 +137,20 @@ class manager_window:
         else:
             sql = "INSERT INTO tbl_user(id, username, password, category) VALUES (%s,%s,%s,%s)"
             val = (cusId, username, password, category)
-            mycur.execute(sql, val)
-            mydb.commit()
-            tkinter.messagebox.showinfo("success!!", category + " " + "added")
-            self.user_ent.delete(0, END)
-            self.id_ent.delete(0, END)
-            self.psw_ent.delete(0, END)
-            self.categ_ent.delete(0, END)
+            try:
+                mycur.execute(sql, val)
+                mydb.commit()
+                tkinter.messagebox.showinfo("success!!", category + " " + "added")
+                self.user_ent.delete(0, END)
+                self.id_ent.delete(0, END)
+                self.psw_ent.delete(0, END)
+                self.categ_ent.delete(0, END)
+            except DataError as e:
+                tkinter.messagebox.showerror("invalid value", e)
+            except IntegrityError as e:
+                tkinter.messagebox.showerror("duplicate", e)
+            finally:
+                pass
 
     def run(self):
         self.root.mainloop()
@@ -282,13 +317,18 @@ class manager_window:
                 mycur.execute(myquery)
                 mydb.commit()
                 tkinter.messagebox.showinfo("Success!!!", "Update Successful")
+                self.product_name_ent.delete(0, END)
+                self.product_code_ent.delete(0, END)
+                self.product_categ_ent.delete(0, END)
+                self.product_quant_ent.delete(0, END)
+                self.product_price_ent.delete(0, END)
             except DataError as e:
                 tkinter.messagebox.showwarning("invalid values", e)
             except IntegrityError as e:
                 tkinter.messagebox.showwarning("duplicate value", e)
             except NameError as e:
                 tkinter.messagebox.showerror("not found", e)
-            except ProgrammingError as e:
+            except ProgrammingError:
                 tkinter.messagebox.showwarning("database error", "code/syntax error")
             finally:
                 pass
