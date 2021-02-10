@@ -1,10 +1,10 @@
 from tkinter import *
 import tkinter.messagebox
 import mysql.connector
-from mysql.connector import IntegrityError, DataError
+from mysql.connector import IntegrityError, DataError, ProgrammingError
 
 totalguds = []
-availableproducts= []
+availableproducts = []
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -215,7 +215,8 @@ class manager_window:
         self.label = Label(self.update_product_frame, text="Product Name", font="Aerial 10 bold")
         self.label.place(x=20, y=70)
         self.label.config(bg="blue")
-        self.product_name_btn = Button(self.update_product_frame, text="Search", font="Aerial 10 bold", command=self.productSearch)
+        self.product_name_btn = Button(self.update_product_frame, text="Search", font="Aerial 10 bold",
+                                       command=self.productSearch)
         self.product_name_btn.place(x=340, y=70)
         self.label = Label(self.update_product_frame, text="Product Code", font="Aerial 10 bold")
         self.label.place(x=20, y=120)
@@ -237,16 +238,60 @@ class manager_window:
         self.label.config(bg='blue')
         self.product_price_ent = Entry(self.update_product_frame)
         self.product_price_ent.place(x=150, y=270)
-        self.product_name_btn = Button(self.update_product_frame, text="Update", font="Aerial 10 bold")
+        self.product_name_btn = Button(self.update_product_frame, text="Update", font="Aerial 10 bold",
+                                       command=self.updateproduct)
         self.product_name_btn.place(x=80, y=330)
 
     def productSearch(self):
+        global pro_Name
         pro_Name = self.product_name_ent.get()
-        mycur.execute("SELECT * fROM tbl_product WHERE productName ='"+pro_Name+"'")
-        myresult = mycur.fetchall()
-        for x in myresult:
-            print(x)
+        if pro_Name == "":
+            tkinter.messagebox.showerror("null", "Enter Product Name")
+        else:
+            try:
+                mycur.execute("SELECT * fROM tbl_product WHERE productName ='" + pro_Name + "'")
+                mydata = mycur.fetchall()
+                for y in mydata:
+                    self.product_code_ent.delete(0, END)
+                    self.product_code_ent.insert(END, y[0])
+                    self.product_categ_ent.delete(0, END)
+                    self.product_categ_ent.insert(END, y[2])
+                    self.product_quant_ent.delete(0, END)
+                    self.product_quant_ent.insert(END, y[3])
+                    self.product_price_ent.delete(0, END)
+                    self.product_price_ent.insert(END, y[4])
+            finally:
+                pass
 
+    def updateproduct(self):
+        productcode = self.product_code_ent.get()
+        productcateg = self.product_categ_ent.get()
+        productquant = self.product_quant_ent.get()
+        productprice = self.product_price_ent.get()
+        if productcode == "":
+            tkinter.messagebox.showerror("null field", "Enter Product Code")
+        elif productcateg == "":
+            tkinter.messagebox.showerror("null field", "Enter Category")
+        elif productquant == "":
+            tkinter.messagebox.showerror("null field", "Enter Quantity")
+        elif productprice == "":
+            tkinter.messagebox.showerror("null field", "Enter Price")
+        else:
+            myquery = "UPDATE tbl_product SET productCode ='"+productcode+"', category='"+productcateg+"', quantity='"+productquant+"', unitPrice='"+productprice+"' WHERE productName= '"+pro_Name+"'"
+            try:
+                mycur.execute(myquery)
+                mydb.commit()
+                tkinter.messagebox.showinfo("Success!!!", "Update Successful")
+            except DataError as e:
+                tkinter.messagebox.showwarning("invalid values", e)
+            except IntegrityError as e:
+                tkinter.messagebox.showwarning("duplicate value", e)
+            except NameError as e:
+                tkinter.messagebox.showerror("not found", e)
+            except ProgrammingError as e:
+                tkinter.messagebox.showwarning("database error", "code/syntax error")
+            finally:
+                pass
 
     def stock(self):
         self.stock_frame = Frame(self.root, bd=10, relief=GROOVE)
@@ -368,7 +413,6 @@ class employee():
         else:
             tkinter.messagebox.showerror("error", "invalid entry")
 
-
     def add_cart(self):
 
         proName = self.proName_ent.get()
@@ -400,11 +444,11 @@ class employee():
             self.totallabel = Label(self.pro_frame, text=price * quantity, font="Aerial 10 bold")
             self.totallabel.place(x=280, y=2)
             self.totallabel.config(bg="white")
-            totalguds.append(price*quantity)
+            totalguds.append(price * quantity)
             amnt = sum(totalguds)
             self.totalguds.delete(0, END)
             self.totalguds.insert(END, amnt)
-            sql = "UPDATE tbl_product SET quantity ='"+new_quantity+"' WHERE productCode ='"+searchCode+"'"
+            sql = "UPDATE tbl_product SET quantity ='" + new_quantity + "' WHERE productCode ='" + searchCode + "'"
             mycur.execute(sql)
             mydb.commit()
 
@@ -428,7 +472,7 @@ class employee():
                 self.quantAvailabel.insert(END, x[3])
 
         finally:
-            tkinter.messagebox.showerror('null', 'invalid code')
+            pass
 
     def reset(self):
         self.search_code.delete(0, END)
