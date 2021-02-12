@@ -1,6 +1,5 @@
 from tkinter import *
 import tkinter.messagebox
-from PIL import Image
 import mysql.connector
 from mysql.connector import IntegrityError, DataError, ProgrammingError, DatabaseError
 
@@ -15,7 +14,7 @@ try:
     )
     mycur = mydb.cursor()
 except DatabaseError as e:
-    tkinter.messagebox.showerror("no db connection","Can't connect to database check connection")
+    tkinter.messagebox.showerror("no db connection", "Can't connect to database check connection")
 finally:
     pass
 
@@ -65,6 +64,18 @@ class manager_window:
         self.products_frame.config(bg="blue")
         self.exit_btn = Button(self.products_frame, text="X", font="times 20 bold", command=self.products_frame.destroy)
         self.exit_btn.place(x=530, y=5)
+        self.pro_label = Label(self.products_frame, text="Available Products", font="Aerial 14 bold")
+        self.pro_label.place(x=130, y=10)
+        self.pro_label.config(bg="blue")
+        self.available1 = Frame(self.products_frame, bd=5, relief=GROOVE)
+        self.available1.place(x=5, y=50, width=280, height=325)
+        self.available1.config(bg="white")
+        self.available2 = Frame(self.products_frame, bd=5, relief=GROOVE)
+        self.available2.place(x=300, y=50, width=280, height=325)
+        self.available2.config(bg="white")
+        mycur.execute("SELECT * FROM tbl_product")
+        myresult = mycur.fetchall()
+
 
     def employees(self):
         self.employee_frame = Frame(self.root, bd=10, relief=GROOVE)
@@ -89,6 +100,9 @@ class manager_window:
         self.pic_frame = Frame(self.dev_frame, bd=5, relief=GROOVE)
         self.pic_frame.place(x=70, y=90, width=150, height=180)
         self.pic_frame.config(bg="white")
+        self.devlabel = Label(self.dev_frame, text="Developer Details", font="Aerial 14 bold")
+        self.devlabel.place(x=130, y=30)
+        self.devlabel.config(bg="grey")
         self.devname = Label(self.dev_frame, text="Name :")
         self.name = Label(self.dev_frame,text="Jodham Wanjala")
         self.devage = Label(self.dev_frame, text="Age :")
@@ -97,7 +111,6 @@ class manager_window:
         self.skul = Label(self.dev_frame, text="Kibabii University")
         self.devemail = Label(self.dev_frame, text="Email :")
         self.email = Label(self.dev_frame, text="wanjalajodham@gmail.com")
-
         self.devname.place(x=250, y=90)
         self.devname.config(bg="grey")
         self.name.place(x=340, y=90)
@@ -356,12 +369,12 @@ class manager_window:
                 self.product_categ_ent.delete(0, END)
                 self.product_quant_ent.delete(0, END)
                 self.product_price_ent.delete(0, END)
-            except DataError as e:
-                tkinter.messagebox.showwarning("invalid values", e)
-            except IntegrityError as e:
-                tkinter.messagebox.showwarning("duplicate value", e)
-            except NameError as e:
-                tkinter.messagebox.showerror("not found", e)
+            except DataError as a:
+                tkinter.messagebox.showwarning("invalid values", a)
+            except IntegrityError as b:
+                tkinter.messagebox.showwarning("duplicate value", b)
+            except NameError as c:
+                tkinter.messagebox.showerror("not found", c)
             except ProgrammingError:
                 tkinter.messagebox.showwarning("database error", "code/syntax error")
             finally:
