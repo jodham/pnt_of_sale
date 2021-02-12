@@ -1,17 +1,23 @@
 from tkinter import *
 import tkinter.messagebox
+from PIL import Image
 import mysql.connector
-from mysql.connector import IntegrityError, DataError, ProgrammingError
+from mysql.connector import IntegrityError, DataError, ProgrammingError, DatabaseError
 
 totalguds = []
 availableproducts = []
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="mydatabase1"
-)
-mycur = mydb.cursor()
+try:
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="mydatabase1"
+    )
+    mycur = mydb.cursor()
+except DatabaseError as e:
+    tkinter.messagebox.showerror("no db connection","Can't connect to database check connection")
+finally:
+    pass
 
 
 class manager_window:
@@ -80,6 +86,34 @@ class manager_window:
         self.dev_frame.config(bg="grey")
         self.exit_btn = Button(self.dev_frame, text="X", font="times 20 bold", command=self.dev_frame.destroy)
         self.exit_btn.place(x=530, y=5)
+        self.pic_frame = Frame(self.dev_frame, bd=5, relief=GROOVE)
+        self.pic_frame.place(x=70, y=90, width=150, height=180)
+        self.pic_frame.config(bg="white")
+        self.devname = Label(self.dev_frame, text="Name :")
+        self.name = Label(self.dev_frame,text="Jodham Wanjala")
+        self.devage = Label(self.dev_frame, text="Age :")
+        self.age = Label(self.dev_frame, text="22")
+        self.devskul = Label(self.dev_frame, text="University :")
+        self.skul = Label(self.dev_frame, text="Kibabii University")
+        self.devemail = Label(self.dev_frame, text="Email :")
+        self.email = Label(self.dev_frame, text="wanjalajodham@gmail.com")
+
+        self.devname.place(x=250, y=90)
+        self.devname.config(bg="grey")
+        self.name.place(x=340, y=90)
+        self.name.config(bg="grey")
+        self.devage.place(x=250, y=130)
+        self.devage.config(bg="grey")
+        self.age.place(x=340, y=130)
+        self.age.config(bg="grey")
+        self.devskul.place(x=250, y=170)
+        self.devskul.config(bg="grey")
+        self.skul.place(x=340, y=170)
+        self.skul.config(bg="grey")
+        self.devemail.place(x=250, y=210)
+        self.devemail.config(bg="grey")
+        self.email.place(x=340, y=210)
+        self.email.config(bg="grey")
 
     def add_user(self):
         self.add_user_frame = Frame(self.root, bd=10, relief=GROOVE)
