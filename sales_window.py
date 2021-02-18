@@ -73,8 +73,6 @@ class manager_window:
         self.available2 = Frame(self.products_frame, bd=5, relief=GROOVE)
         self.available2.place(x=300, y=50, width=280, height=325)
         self.available2.config(bg="white")
-        mycur.execute("SELECT * FROM tbl_product")
-        myresult = mycur.fetchall()
 
 
     def employees(self):
@@ -192,10 +190,10 @@ class manager_window:
                 self.id_ent.delete(0, END)
                 self.psw_ent.delete(0, END)
                 self.categ_ent.delete(0, END)
-            except DataError as e:
-                tkinter.messagebox.showerror("invalid value", e)
-            except IntegrityError as e:
-                tkinter.messagebox.showerror("duplicate", e)
+            except DataError as i:
+                tkinter.messagebox.showerror("invalid value", i)
+            except IntegrityError as i:
+                tkinter.messagebox.showerror("duplicate", i)
             finally:
                 pass
 
@@ -435,7 +433,7 @@ class employee():
         self.btn_clear.place(x=250, y=300)
         self.frm1 = Frame(self.emp_window, bd=10, relief=GROOVE)
         self.frm1.place(x=450, y=500, width=420, height=90)
-        self.btn_total = Button(self.frm1, text="Total", font="Aerial 15 bold")
+        self.btn_total = Button(self.frm1, text="Total", font="Aerial 15 bold", command=self.total)
         self.btn_total.place(x=2, y=13)
         self.btn_total = Button(self.frm1, text="Print Receipt", font="Aerial 15 bold", command=self.receipt)
         self.btn_total.place(x=200, y=13)
@@ -538,6 +536,26 @@ class employee():
             sql = "UPDATE tbl_product SET quantity ='" + new_quantity + "' WHERE productCode ='" + searchCode + "'"
             mycur.execute(sql)
             mydb.commit()
+    def total(self):
+        gudstotal = self.totalguds.get()
+        self.pro_frame = Frame(self.txtarea, height=27)
+        self.pro_frame.pack(fill="x")
+        self.pro_frame.config(bg="white")
+        self.totallabel = Label(self.pro_frame, text=gudstotal, font="Aerial 10 bold")
+        self.totallabel.place(x=280, y=2)
+        self.totallabel.config(bg="white")
+        self.lbl1 = Label(self.pro_frame, text="Total Cost", font="Aerial 10 bold")
+        self.lbl1.place(x=15, y=2)
+        self.lbl1.config(bg="white")
+        self.emp_frame1 = Frame(self.txtarea, height=27)
+        self.emp_frame1.pack(fill="x")
+        self.emp_frame1.config(bg="white")
+        self.emp_frame = Frame(self.txtarea, height=27)
+        self.emp_frame.pack(fill="x")
+        self.emp_frame.config(bg="white")
+        self.lbl2 = Label(self.emp_frame, text="Welcome Again!!!!!", font="Aerial 7 bold")
+        self.lbl2.place(x=15, y=2)
+        self.lbl2.config(bg="white")
 
     def search_pro(self):
         global searchCode
@@ -557,7 +575,8 @@ class employee():
                 self.ent_price.insert(END, x[4])
                 self.quantAvailabel.delete(0, END)
                 self.quantAvailabel.insert(END, x[3])
-
+        except NameError:
+            tkinter.messagebox.showerror("null", "product does not exist")
         finally:
             pass
 
